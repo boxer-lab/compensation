@@ -26,11 +26,11 @@ public class Inventory {
 
     @PostUpdate
     public void onPostUpdate() {
-        OutOfStock outOfStock = new OutOfStock(this);
-        outOfStock.publishAfterCommit();
-
         StockDecreased stockDecreased = new StockDecreased(this);
         stockDecreased.publishAfterCommit();
+
+        OutOfStock outOfStock = new OutOfStock(this);
+        outOfStock.publishAfterCommit();
     }
 
     public static InventoryRepository repository() {
@@ -50,8 +50,6 @@ public class Inventory {
 
         StockDecreased stockDecreased = new StockDecreased(inventory);
         stockDecreased.publishAfterCommit();
-        OutOfStock outOfStock = new OutOfStock(inventory);
-        outOfStock.publishAfterCommit();
         */
 
         /** Example 2:  finding and process
@@ -63,8 +61,34 @@ public class Inventory {
 
             StockDecreased stockDecreased = new StockDecreased(inventory);
             stockDecreased.publishAfterCommit();
-            OutOfStock outOfStock = new OutOfStock(inventory);
-            outOfStock.publishAfterCommit();
+
+         });
+        */
+
+    }
+
+    //>>> Clean Arch / Port Method
+    //<<< Clean Arch / Port Method
+    public static void decreaseStock(OutOfStock outOfStock) {
+        //implement business logic here:
+
+        /** Example 1:  new item 
+        Inventory inventory = new Inventory();
+        repository().save(inventory);
+
+        StockDecreased stockDecreased = new StockDecreased(inventory);
+        stockDecreased.publishAfterCommit();
+        */
+
+        /** Example 2:  finding and process
+        
+        repository().findById(outOfStock.get???()).ifPresent(inventory->{
+            
+            inventory // do something
+            repository().save(inventory);
+
+            StockDecreased stockDecreased = new StockDecreased(inventory);
+            stockDecreased.publishAfterCommit();
 
          });
         */

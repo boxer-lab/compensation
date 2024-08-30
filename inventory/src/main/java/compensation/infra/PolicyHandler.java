@@ -41,6 +41,22 @@ public class PolicyHandler {
 
     @StreamListener(
         value = KafkaProcessor.INPUT,
+        condition = "headers['type']=='OutOfStock'"
+    )
+    public void wheneverOutOfStock_DecreaseStock(
+        @Payload OutOfStock outOfStock
+    ) {
+        OutOfStock event = outOfStock;
+        System.out.println(
+            "\n\n##### listener DecreaseStock : " + outOfStock + "\n\n"
+        );
+
+        // Sample Logic //
+        Inventory.decreaseStock(event);
+    }
+
+    @StreamListener(
+        value = KafkaProcessor.INPUT,
         condition = "headers['type']=='OrderCancelled'"
     )
     public void wheneverOrderCancelled_IncreaseStock(
